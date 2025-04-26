@@ -1,6 +1,9 @@
 build: install
 	npm run build
 
+lint:
+	npm run lint
+
 dev: install
 	npm start
 
