@@ -18,10 +18,7 @@ export class App {
         this.spaceShip = new SpaceShip();
         this.telemetry = new Telemetry(this.spaceShip);
         this.viewport = new Viewport();
-        this.bodies = [
-            new AstroBody("Sirius A"),
-            // new AstroBody("Sirius B"),
-        ]
+        this.bodies = []
     }
 
     async init() {
@@ -41,19 +38,24 @@ export class App {
     }
 
     async setupAssets() {
-        this.bodies[0].color = 0xFFAA00;
-        this.bodies[0].mass = 15000000000000000; // tons
-        this.bodies[0].radius = 40;
-        this.bodies[0].x = this.app.screen.width / 2;
-        this.bodies[0].y = this.app.screen.height / 2;
-        // this.bodies[0].velocity = new Point(20, 20);
+        const siriusA = new AstroBody("Sirius A");
+        siriusA.color = 0xFFAA00;
+        siriusA.mass = 15000000000000000; // tons
+        siriusA.radius = 40;
+        siriusA.x = this.app.screen.width / 2;
+        siriusA.y = this.app.screen.height / 2;
+        // siriusA.velocity = new Point(20, 20);
 
-        // this.bodies[1].color = 0xAAAAFF;
-        // this.bodies[1].mass = 15000000000000000; // tons
-        // this.bodies[1].radius = 30;
-        // this.bodies[1].x = this.app.screen.width / 2 + 160;
-        // this.bodies[1].y = this.app.screen.height / 2 + 200;
-        // this.bodies[1].velocity = new Point(-50, 0);
+        const siriusB = new AstroBody("Sirius B");
+        siriusB.color = 0xAAAAFF;
+        siriusB.mass = 15000000000000000; // tons
+        siriusB.radius = 30;
+        siriusB.x = this.app.screen.width / 2 + 160;
+        siriusB.y = this.app.screen.height / 2 + 200;
+        // siriusB.velocity = new Point(-50, 0);
+
+        this.bodies.push(siriusA);
+        this.bodies.push(siriusB);
 
         for (const body of this.bodies) {
             await body.draw();
@@ -68,9 +70,8 @@ export class App {
         this.spaceShip.velocity.y = 40;
         this.spaceShip.angle = 200;
         this.spaceShip.angularSpeed = -12.5 * DEG_TO_RAD;
-        // this.spaceShip.velocity = new Point(-10 + Math.random() * 20, -10 + Math.random() * 20);
+
         // this.spaceShip.friction = new Point(0.01, 0.01);
-        // this.spaceShip.angularSpeed = (-180 + Math.random() * 360) * DEG_TO_RAD;
         // this.spaceShip.angularFriction = 0.01;
 
         this.viewport.addChild(this.spaceShip);
