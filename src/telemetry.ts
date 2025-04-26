@@ -1,5 +1,5 @@
 import { Container, Ticker, Text, TextStyle, RAD_TO_DEG } from "pixi.js";
-import { round } from "./math";
+import { degArrow, round, angleDeg, radToDeg } from "./math";
 import { SpaceShip } from "./spaceship";
 
 export class Telemetry extends Container {
@@ -87,13 +87,13 @@ export class Telemetry extends Container {
 
         const x = round(this._spaceShip.x).toString().padEnd(6);
         const y = round(this._spaceShip.y).toString().padEnd(6);
-        const positionAngle = vectorAngleDegrees(this._spaceShip.x, this._spaceShip.y);
-        const positionArrow = angleToArrow(positionAngle);
+        const positionAngle = angleDeg(this._spaceShip.x, this._spaceShip.y);
+        const positionArrow = degArrow(positionAngle);
 
         const velocityX = round(this._spaceShip.velocity.x, 2).toString().padEnd(6);
         const velocityY = round(this._spaceShip.velocity.y, 2).toString().padEnd(6);
-        const velocityAngle = round(vectorAngleDegrees(this._spaceShip.velocity.x, this._spaceShip.velocity.y), 2);
-        const velocityArrow = angleToArrow(velocityAngle);
+        const velocityAngle = round(angleDeg(this._spaceShip.velocity.x, this._spaceShip.velocity.y), 2);
+        const velocityArrow = degArrow(velocityAngle);
 
         const speed = round(this._spaceShip.speed, 2).toString().padEnd(6)
 
@@ -109,12 +109,12 @@ export class Telemetry extends Container {
         ).toString().padEnd(6);
         const accelVectorX = round(this._spaceShip.acceleration.x, 2).toString().padEnd(6);
         const accelVectorY = round(this._spaceShip.acceleration.y, 2).toString().padEnd(6);
-        const accelarationAngle = round(vectorAngleDegrees(this._spaceShip.acceleration.x, this._spaceShip.acceleration.y), 2);
-        const accelerationArrow = angleToArrow(accelarationAngle);
+        const accelarationAngle = round(angleDeg(this._spaceShip.acceleration.x, this._spaceShip.acceleration.y), 2);
+        const accelerationArrow = degArrow(accelarationAngle);
 
-        const rotationDeg = round(angleDegrees(this._spaceShip.rotation), 2);
+        const rotationDeg = round(radToDeg(this._spaceShip.rotation), 2);
         const rotationDegStr = rotationDeg.toString().padEnd(6);
-        const rotationArrow = angleToArrow(rotationDeg);
+        const rotationArrow = degArrow(rotationDeg);
 
         const angularSpeedDeg = round(this._spaceShip.angularSpeed * RAD_TO_DEG, 2).toString().padEnd(6);
         const angularAccelerationDeg = round(this._spaceShip.angularAcceleration * RAD_TO_DEG, 2).toString().padEnd(6);
@@ -138,22 +138,3 @@ export class Telemetry extends Container {
             `directions:           pos: ${positionArrow} | vel: ${velocityArrow} | acl: ${accelerationArrow} | rot: ${rotationArrow}`;
     }
 }
-
-function vectorAngleDegrees(x: number, y: number): number {
-    return angleDegrees(Math.atan2(y, x) + Math.PI / 2);
-}
-
-function angleDegrees(radians: number): number {
-    const deg = (radians * RAD_TO_DEG) % 360;
-    if (deg < 0) {
-        return 360 + deg;
-    }
-    return deg;
-}
-
-function angleToArrow(angleDeg: number): string {
-    const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
-    const index = Math.round((angleDeg) / 45) % 8;
-    return directions[index];
-}
-
